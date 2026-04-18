@@ -1,0 +1,37 @@
+<div class="app-shell">
+
+  <!-- Top header bar -->
+  <app-header></app-header>
+
+  <!-- Main content: sidebar + map area -->
+  <div class="main-content">
+
+    <!-- Left sidebar: legend, metrics, alerts -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Map area fills remaining space -->
+    <div class="map-area">
+
+      <app-map></app-map>
+
+      <!-- Floating bottom-bar: status chips -->
+      <div class="status-bar">
+        <span class="status-chip normal">● Normal</span>
+        <span class="status-chip high-load">● High load</span>
+        <span class="status-chip overloaded">● Overloaded</span>
+        <span class="status-chip offline">● Offline</span>
+        <span class="status-chip outage">✕ Outage</span>
+      </div>
+
+      <!-- Bottom-right floating chart -->
+      <div class="chart-float">
+        <app-chart></app-chart>
+      </div>
+
+      <!-- Selected feeder detail panel (floats over map) -->
+      <app-feeder-panel></app-feeder-panel>
+
+    </div>
+  </div>
+
+</div>

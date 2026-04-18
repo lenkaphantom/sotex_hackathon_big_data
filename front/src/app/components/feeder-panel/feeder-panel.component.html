@@ -1,0 +1,46 @@
+<div class="feeder-panel" *ngIf="feeder" [class]="feeder.angularStatus">
+  <div class="panel-header">
+    <div class="panel-title-row">
+      <span class="status-dot" [style.background]="statusColor"></span>
+      <h4 class="panel-title">{{ feeder.feederName }}</h4>
+    </div>
+    <div class="status-chip" [class]="feeder.angularStatus">
+      {{ feeder.angularStatus.replace('-', ' ').toUpperCase() }}
+    </div>
+  </div>
+
+  <div class="panel-metrics">
+    <div class="pm-item">
+      <span class="pm-label">Load %</span>
+      <span class="pm-value">{{ feeder.loadPercent | number: '1.1-1' }}%</span>
+    </div>
+    <div class="pm-item">
+      <span class="pm-label">Status</span>
+      <span class="pm-value">{{ feeder.status }}</span>
+    </div>
+    <div class="pm-item">
+      <span class="pm-label">Imbalance</span>
+      <span class="pm-value warn">{{ feeder.imbalancePct | number: '1.0-0' }}%</span>
+    </div>
+    <div class="pm-item">
+      <span class="pm-label">Active Meters</span>
+      <span class="pm-value">{{ feeder.activeDSCount }} / {{ feeder.totalDSCount }}</span>
+    </div>
+  </div>
+
+  <!-- Load bar -->
+  <div class="load-section">
+    <div class="load-label-row">
+      <span class="pm-label">Load utilization</span>
+      <span class="pm-value" [style.color]="statusColor">{{ loadPercent }}%</span>
+    </div>
+    <div class="load-bar-bg">
+      <div class="load-bar-fill" [style.width.%]="loadPercent" [style.background]="statusColor"></div>
+    </div>
+  </div>
+
+  <!-- Last refreshed -->
+  <div class="panel-footer">
+    <span class="footer-text">Last updated: {{ feeder.refreshedAt | date: 'short' }}</span>
+  </div>
+</div>

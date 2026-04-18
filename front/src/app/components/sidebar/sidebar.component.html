@@ -1,0 +1,104 @@
+<aside class="sidebar">
+
+  <!-- LEGEND -->
+  <section class="section">
+    <h3 class="section-title">Feeder status</h3>
+    <div class="legend">
+      <div class="legend-item">
+        <span class="dot normal"></span>
+        <span class="legend-label">Normal</span>
+        <span class="legend-count">{{ normalCount }}</span>
+      </div>
+      <div class="legend-item">
+        <span class="dot high-load"></span>
+        <span class="legend-label">High load</span>
+        <span class="legend-count">{{ highLoadCount }}</span>
+      </div>
+      <div class="legend-item">
+        <span class="dot overloaded"></span>
+        <span class="legend-label">Overloaded / Anomaly</span>
+        <span class="legend-count">{{ overloadedCount }}</span>
+      </div>
+      <div class="legend-item">
+        <span class="dot offline"></span>
+        <span class="legend-label">Offline</span>
+        <span class="legend-count">{{ offlineCount }}</span>
+      </div>
+    </div>
+
+    <div class="legend-divider"></div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="icon-dot substation"></span>
+        <span class="legend-label">Substation</span>
+      </div>
+      <div class="legend-item">
+        <span class="icon-dot transformer"></span>
+        <span class="legend-label">Transformer</span>
+      </div>
+      <div class="legend-item">
+        <span class="icon-x"></span>
+        <span class="legend-label">Outage</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section class="section">
+    <h3 class="section-title">Metrics</h3>
+
+    <div class="metric-card">
+      <span class="metric-label">Online Feeders</span>
+      <span class="metric-value primary">{{ metrics.onlineFeeders }} <small>/{{ metrics.totalFeeders }}</small></span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-label">Avg Imbalance</span>
+      <span class="metric-value warning">{{ metrics.avgImbalancePct | number: '1.1-1' }} <small>%</small></span>
+      <div class="loss-bar-wrap">
+        <div class="loss-bar" [style.width.%]="Math.min(metrics.avgImbalancePct / 100, 100)"></div>
+      </div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-card half">
+        <span class="metric-label">Dead Zones</span>
+        <span class="metric-value">{{ metrics.deadZones | number }}</span>
+      </div>
+      <div class="metric-card half">
+        <span class="metric-label">Theft Suspects</span>
+        <span class="metric-value danger">{{ metrics.theftSuspects | number }}</span>
+      </div>
+    </div>
+
+    <div class="metric-card alert-card">
+      <span class="metric-label">Offline Feeders</span>
+      <span class="metric-value danger">{{ metrics.offlineFeeders }}</span>
+      <span class="metric-sublabel">active disruptions</span>
+    </div>
+  </section>
+
+  <!-- FEEDER STATUS -->
+  <section class="section" *ngIf="feeders.length > 0">
+    <h3 class="section-title">Top Feeders</h3>
+    <div class="alert-list">
+      <div
+        *ngFor="let f of feeders | slice:0:5"
+        class="alert-item"
+        [class]="'alert-item ' + f.angularStatus"
+      >
+        <div class="alert-header">
+          <span class="alert-dot" [class]="f.angularStatus"></span>
+          <span class="alert-name">{{ f.feederName }}</span>
+        </div>
+        <div class="alert-messages">
+          <span class="alert-msg">Load: {{ f.loadPercent | number: '1.1-1' }}%</span>
+          <span class="alert-msg" *ngIf="f.imbalancePct > 100">⚠ Imbalance: {{ f.imbalancePct | number: '1.0-0' }}%</span>
+          <span class="alert-msg">{{ f.activeDSCount }}/{{ f.totalDSCount }} meters active</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</aside>

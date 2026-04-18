@@ -1,0 +1,215 @@
+@use '../../_variables' as v;
+
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  height: 100%;
+  background: v.$bg-panel;
+  border-right: 1px solid v.$border;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  scrollbar-width: thin;
+  scrollbar-color: v.$border transparent;
+}
+
+.section {
+  padding: 16px 14px;
+  border-bottom: 1px solid v.$border;
+}
+
+.section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: v.$text-muted;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// ── Legend ──────────────────────────────────────────
+.legend { display: flex; flex-direction: column; gap: 7px; }
+
+.legend-divider {
+  height: 1px;
+  background: v.$border;
+  margin: 10px 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-label {
+  flex: 1;
+  font-size: 11px;
+  color: v.$text-secondary;
+}
+
+.legend-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: v.$text-primary;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  &.normal     { background: v.$color-normal; }
+  &.high-load  { background: v.$color-high; }
+  &.overloaded { background: v.$color-over; box-shadow: 0 0 6px v.$color-over; }
+  &.offline    { background: v.$color-off; }
+}
+
+.icon-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid;
+  flex-shrink: 0;
+  &.substation  { border-color: #818cf8; background: #4f46e5; }
+  &.transformer { border-color: #38bdf8; background: #0ea5e9; }
+}
+
+.icon-x {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: v.$color-over;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+// ── Metrics ─────────────────────────────────────────
+.metric-card {
+  background: v.$bg-card;
+  border: 1px solid v.$border;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  &.half { flex: 1; }
+  &.alert-card { border-color: rgba(239,68,68,0.25); background: rgba(239,68,68,0.05); }
+}
+
+.metric-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 0;
+  .metric-card { margin-bottom: 8px; }
+}
+
+.metric-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: v.$text-muted;
+  font-weight: 600;
+}
+
+.metric-sublabel {
+  font-size: 9px;
+  color: v.$text-muted;
+  font-style: italic;
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: v.$text-primary;
+  line-height: 1.1;
+  small { font-size: 12px; font-weight: 400; color: v.$text-muted; margin-left: 2px; }
+
+  &.primary { color: #60a5fa; }
+  &.warning { color: v.$color-high; }
+  &.danger  { color: v.$color-over; }
+}
+
+.loss-bar-wrap {
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.loss-bar {
+  height: 100%;
+  background: linear-gradient(90deg, v.$color-high, v.$color-over);
+  border-radius: 2px;
+  max-width: 100%;
+  transition: width 0.5s ease;
+}
+
+// ── Alerts ──────────────────────────────────────────
+.alerts-section { flex: 1; }
+
+.alert-badge {
+  background: v.$color-over;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 1px 6px;
+  margin-left: auto;
+}
+
+.alert-list { display: flex; flex-direction: column; gap: 6px; }
+
+.alert-item {
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: 1px solid v.$border;
+  background: v.$bg-card;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+  &.selected { border-color: rgba(99,179,237,0.4); background: rgba(99,179,237,0.05); }
+
+  &.overloaded { border-color: rgba(239,68,68,0.3); }
+  &.high-load  { border-color: rgba(245,158,11,0.3); }
+  &.offline    { border-color: rgba(107,114,128,0.4); }
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  .alert-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    &.overloaded { background: v.$color-over; }
+    &.high-load  { background: v.$color-high; }
+    &.offline    { background: v.$color-off; }
+  }
+}
+
+.alert-name { font-size: 11px; font-weight: 600; color: v.$text-primary; }
+
+.alert-messages { display: flex; flex-direction: column; gap: 2px; }
+
+.alert-msg {
+  font-size: 10px;
+  color: v.$text-muted;
+  &.offline-msg { color: v.$color-over; font-weight: 600; }
+}

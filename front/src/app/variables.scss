@@ -1,0 +1,20 @@
+// Accessible via @import 'variables' in all component SCSS files.
+// Configure angular.json stylePreprocessorOptions.includePaths: ["src/app"]
+
+$bg-base:    #080c14;
+$bg-panel:   #0d1117;
+$bg-card:    #131b29;
+
+$border:     rgba(255, 255, 255, 0.08);
+
+$text-primary:   #f1f5f9;
+$text-secondary: #94a3b8;
+$text-muted:     #4b5a72;
+
+$color-normal:  #22c55e;
+$color-high:    #f59e0b;
+$color-over:    #ef4444;
+$color-off:     #6b7280;
+
+$font-mono: 'DM Mono', 'Fira Code', monospace;
+$font-ui:   'DM Sans', 'Outfit', sans-serif;

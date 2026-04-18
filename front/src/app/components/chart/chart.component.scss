@@ -1,0 +1,42 @@
+@use '../../_variables' as v;
+
+.chart-wrap {
+  background: v.$bg-panel;
+  border: 1px solid v.$border;
+  border-radius: 10px;
+  padding: 10px 12px 6px;
+  width: 320px;
+
+  canvas { width: 100%; display: block; }
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.chart-title {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: v.$text-muted;
+  font-weight: 700;
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: v.$text-muted;
+}
+
+.cl-item {
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  &.blue  { background: #60a5fa; }
+  &.amber { background: #f59e0b; border: none; border-top: 1px dashed #f59e0b; height: 0; }
+}

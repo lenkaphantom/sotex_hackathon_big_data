@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Reset & Base ────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #080c14;
+  color: #f1f5f9;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  &:hover { background: rgba(255,255,255,0.2); }
+}
+
+/* ── Leaflet overrides ──────────────────────────── */
+.leaflet-container {
+  background: #080c14 !important;
+  font-family: 'DM Mono', monospace !important;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip-container { display: none; } /* We use custom popups */
+
+.custom-popup {
+  .leaflet-popup-content-wrapper {
+    display: block !important;
+    background: rgba(13, 17, 27, 0.96) !important;
+    border: 1px solid rgba(255,255,255,0.09) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.65) !important;
+    color: #f1f5f9 !important;
+    font-family: 'DM Mono', monospace !important;
+  }
+  .leaflet-popup-tip {
+    display: block !important;
+    background: rgba(13,17,27,0.96) !important;
+  }
+  .leaflet-popup-content { margin: 0 !important; }
+}
+
+.simple-tooltip.leaflet-tooltip {
+  background: rgba(13,17,27,0.92) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: #e2e8f0 !important;
+  font-size: 11px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  font-family: 'DM Mono', monospace !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(8,12,20,0.75) !important;
+  color: #334155 !important;
+  font-size: 9px !important;
+  a { color: #475569 !important; }
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+
+  a {
+    background: rgba(13,17,27,0.9) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    color: #94a3b8 !important;
+    width: 28px !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    font-size: 16px !important;
+    transition: all 0.15s !important;
+
+    &:hover {
+      background: rgba(30,41,59,0.95) !important;
+      color: #f1f5f9 !important;
+    }
+
+    &.leaflet-control-zoom-in { border-radius: 8px 8px 0 0 !important; }
+    &.leaflet-control-zoom-out { border-radius: 0 0 8px 8px !important; }
+  }
+}
