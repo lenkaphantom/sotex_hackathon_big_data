@@ -40,7 +40,7 @@
     </div>
   </section>
 
-  <!-- METRICS WIDGETS -->
+  <!-- NETWORK METRICS -->
   <section class="section">
     <h3 class="section-title">Network metrics</h3>
 
@@ -49,11 +49,22 @@
       <span class="metric-value primary">{{ metrics.onlineFeeders }} <small>/ {{ metrics.totalFeeders }}</small></span>
     </div>
 
+    <div class="metric-row">
+      <div class="metric-card half">
+        <span class="metric-label">Consumption</span>
+        <span class="metric-value primary">{{ metrics.totalConsumptionMW | number:'1.0-1' }} <small>MW</small></span>
+      </div>
+      <div class="metric-card half">
+        <span class="metric-label">Total Losses</span>
+        <span class="metric-value warning">{{ metrics.totalLossesPct | number:'1.0-1' }} <small>%</small></span>
+      </div>
+    </div>
+
     <div class="metric-card">
       <span class="metric-label">Avg Imbalance</span>
-      <span class="metric-value warning">{{ metrics.avgImbalancePct | number: '1.1-1' }} <small>%</small></span>
+      <span class="metric-value warning">{{ metrics.avgImbalancePct | number:'1.0-1' }} <small>%</small></span>
       <div class="loss-bar-wrap">
-        <div class="loss-bar" [style.width.%]="Math.min(metrics.avgImbalancePct / 200, 100)"></div>
+        <div class="loss-bar" [style.width.%]="Math.min(metrics.avgImbalancePct / 5000, 100)"></div>
       </div>
     </div>
 
@@ -65,6 +76,17 @@
       <div class="metric-card half">
         <span class="metric-label">Theft Suspects</span>
         <span class="metric-value danger">{{ metrics.theftSuspects | number }}</span>
+      </div>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-card half">
+        <span class="metric-label">Consumers</span>
+        <span class="metric-value">{{ metrics.totalConsumers | number }}</span>
+      </div>
+      <div class="metric-card half">
+        <span class="metric-label">Unregistered</span>
+        <span class="metric-value danger">{{ metrics.estimatedUnregistered | number }}</span>
       </div>
     </div>
 
@@ -91,9 +113,9 @@
           <span class="alert-name">{{ f.feederName }}</span>
         </div>
         <div class="alert-messages">
-          <span class="alert-msg">Load: {{ (f.loadPercent ?? 0) | number: '1.1-1' }}%</span>
+          <span class="alert-msg">Load: {{ (f.loadPercent ?? 0) | number:'1.1-1' }}%</span>
           <span class="alert-msg" *ngIf="(f.imbalancePct ?? 0) > 100">
-            ⚠ Imbalance: {{ (f.imbalancePct ?? 0) | number: '1.0-0' }}%
+            ⚠ Imbalance: {{ (f.imbalancePct ?? 0) | number:'1.0-0' }}%
           </span>
           <span class="alert-msg">{{ f.activeDSCount }}/{{ f.totalDSCount }} meters active</span>
         </div>
@@ -103,7 +125,7 @@
 
   <!-- ALERTS FROM /api/feeders/alerts -->
   <section class="section" *ngIf="alerts.length > 0">
-    <h3 class="section-title">Active Alerts</h3>
+    <h3 class="section-title">Active Alerts <span class="alert-badge">{{ alerts.length }}</span></h3>
     <div class="alert-list">
       <div
         *ngFor="let a of alerts | slice:0:8"
@@ -121,5 +143,25 @@
     </div>
   </section>
 
-</aside>
+  <!-- THEFT ALERTS from /api/theft-alerts -->
+  <section class="section" *ngIf="theftAlerts.length > 0">
+    <h3 class="section-title">Theft Alerts <span class="alert-badge">{{ theftAlerts.length }}</span></h3>
+    <div class="alert-list">
+      <div
+        *ngFor="let t of theftAlerts | slice:0:6"
+        class="alert-item critical"
+      >
+        <div class="alert-header">
+          <span class="alert-dot critical"></span>
+          <span class="alert-name">{{ t.dsName }}</span>
+        </div>
+        <div class="alert-messages">
+          <span class="alert-msg">Feeder: {{ t.feederName ?? 'Unknown' }}</span>
+          <span class="alert-msg">Imbalance: {{ (t.imbalancePct ?? 0) | number:'1.1-1' }}%</span>
+          <span class="alert-msg" style="color:#ef4444;font-weight:600;">Risk: {{ t.riskLevel }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
+</aside>

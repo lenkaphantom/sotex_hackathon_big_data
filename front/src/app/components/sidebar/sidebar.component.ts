@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { NetworkMetrics, Feeder, Alert } from '../../models/network.models';
+import { NetworkMetrics, Feeder, Alert, TheftAlert } from '../../models/network.models';
 import { NetworkService } from '../../services/network.service';
 
 @Component({
@@ -16,20 +16,37 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   metrics: NetworkMetrics = {
     totalFeeders: 0, onlineFeeders: 0, offlineFeeders: 0,
+    overloadedFeeders: 0, highLoadFeeders: 0, normalFeeders: 0,
+    totalConsumers: 0, estimatedUnregistered: 0,
+    totalConsumptionMW: 0, totalLossesPct: 0,
     avgImbalancePct: 0, theftSuspects: 0, deadZones: 0,
   };
 
   feeders: Feeder[] = [];
   alerts: Alert[] = [];
+  theftAlerts: TheftAlert[] = [];
   private subs: Subscription[] = [];
 
   constructor(private networkSvc: NetworkService) {}
 
   ngOnInit(): void {
     this.subs.push(
-      this.networkSvc.getMetrics().subscribe(m => { this.metrics = m; }),
-      this.networkSvc.getFeeders().subscribe(f => { this.feeders = f; }),
-      this.networkSvc.getAlerts().subscribe(a => { this.alerts = a; }),
+      this.networkSvc.getMetrics().subscribe(m => {
+        console.log('[sidebar] metrics received', m);
+        this.metrics = m;
+      }),
+      this.networkSvc.getFeeders().subscribe(f => {
+        console.log('[sidebar] feeders received', f.length);
+        this.feeders = f;
+      }),
+      this.networkSvc.getAlerts().subscribe(a => {
+        console.log('[sidebar] alerts received', a.length);
+        this.alerts = a;
+      }),
+      this.networkSvc.getTheftAlerts().subscribe(t => {
+        console.log('[sidebar] theftAlerts received', t.length);
+        this.theftAlerts = t;
+      }),
     );
   }
 

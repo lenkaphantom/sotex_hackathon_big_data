@@ -32,51 +32,30 @@
 
 .brand-text {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   .brand-name {
-    font-size: 11px;
+    font-size: 19px;
     font-weight: 800;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     color: v.$text-primary;
+    line-height: 32px;
+
+    .brand-accent {
+      color: #60a5fa;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
   }
   .brand-sub {
-    font-size: 9px;
+    font-size: 13px;
     color: v.$text-muted;
     font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 32px;
+    font-style: italic;
+    margin-left: 250px;
   }
-}
-
-.search-wrap {
-  flex: 1;
-  max-width: 360px;
-  position: relative;
-  margin-left: 12px;
-}
-
-.search-icon {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  color: v.$text-muted;
-}
-
-.search-input {
-  width: 100%;
-  background: v.$bg-card;
-  border: 1px solid v.$border;
-  border-radius: 8px;
-  padding: 7px 10px 7px 32px;
-  font-size: 12px;
-  color: v.$text-primary;
-  font-family: v.$font-mono;
-  outline: none;
-  transition: border-color 0.2s;
-
-  &::placeholder { color: v.$text-muted; }
-  &:focus { border-color: rgba(99,179,237,0.4); }
 }
 
 .controls {

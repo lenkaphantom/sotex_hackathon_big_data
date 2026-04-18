@@ -32,7 +32,13 @@ export interface NetworkMetrics {
   totalFeeders: number;
   onlineFeeders: number;
   offlineFeeders: number;
-  overloadedFeeders?: number;
+  overloadedFeeders: number;
+  highLoadFeeders: number;
+  normalFeeders: number;
+  totalConsumers: number;
+  estimatedUnregistered: number;
+  totalConsumptionMW: number;
+  totalLossesPct: number;
   avgImbalancePct: number;
   theftSuspects: number;
   deadZones: number;
@@ -65,7 +71,7 @@ export interface TheftAlert {
 // Time series data from GET /api/feeders/{id}/chart
 export interface TimeSeriesPoint {
   hour: string;
-  avgVoltA: number;
-  avgCurrentA: number;
+  avgVoltA: number | null;
+  avgCurrentA: number | null;
   activeMeters: number;
 }

@@ -1,6 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NetworkService } from '../../services/network.service';
 
 export type ViewMode = 'consumption' | 'losses' | 'outages';
 
@@ -12,8 +13,6 @@ export type ViewMode = 'consumption' | 'losses' | 'outages';
   imports: [CommonModule, FormsModule],
 })
 export class HeaderComponent {
-  @Output() viewModeChange = new EventEmitter<ViewMode>();
-
   searchQuery = '';
   selectedView: ViewMode = 'consumption';
   isLive = true;
@@ -24,8 +23,10 @@ export class HeaderComponent {
     { value: 'outages',     label: 'Outages' },
   ];
 
+  constructor(private networkSvc: NetworkService) {}
+
   selectView(v: ViewMode): void {
     this.selectedView = v;
-    this.viewModeChange.emit(v);
+    this.networkSvc.setViewMode(v);
   }
 }
