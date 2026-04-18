@@ -1,24 +1,19 @@
 export type FeederStatus = 'normal' | 'high-load' | 'overloaded' | 'offline';
 
-export interface LatLng {
-  lat: number;
-  lng: number;
-}
-
-// Feeder status from /feeders/status endpoint
+// Feeder status from GET /api/feeders/status
 export interface Feeder {
   feederId: number;
   feederName: string;
-  status: string; // Backend status like "OK", "OVERLOADED", "SUSPECTED_THEFT"
-  angularStatus: FeederStatus; // Mapped status for UI color coding
-  loadPercent: number;
+  status: string;           // Backend: "OK", "OVERLOADED", "SUSPECTED_THEFT", "OFFLINE", "VOLTAGE_DROP"
+  angularStatus: FeederStatus; // Mapped for UI color coding
+  loadPercent: number | null;
   activeDSCount: number;
   totalDSCount: number;
-  imbalancePct: number;
+  imbalancePct: number | null;
   refreshedAt: string;
 }
 
-// Dead zones and theft suspects - points on the map
+// Dead zones and theft suspects from GET /api/map/
 export interface MapPoint {
   id: number;
   name: string;
@@ -26,13 +21,13 @@ export interface MapPoint {
   latitude: number;
   longitude: number;
   pointType: 'dead_zone' | 'theft_suspect';
-  riskLevel?: string;
-  zoneType?: string;
-  nameplateKVA?: number;
-  imbalancePct?: number;
+  riskLevel?: string | null;
+  zoneType?: string | null;
+  nameplateKVA?: number | null;
+  imbalancePct?: number | null;
 }
 
-// Network metrics from /feeders/metrics
+// Network-wide metrics from GET /api/feeders/metrics
 export interface NetworkMetrics {
   totalFeeders: number;
   onlineFeeders: number;
@@ -43,38 +38,34 @@ export interface NetworkMetrics {
   deadZones: number;
 }
 
-// Time series data from /feeders/{id}/chart
+// Alert from GET /api/feeders/alerts
+export interface Alert {
+  feederId: number;
+  feederName: string;
+  status: string;
+  message: string;
+  severity: 'critical' | 'warning' | 'info';
+}
+
+// Theft alert from GET /api/theft-alerts/
+export interface TheftAlert {
+  dsId: number;
+  dsName: string;
+  feederName: string;
+  latitude: number;
+  longitude: number;
+  avgCurrentA: number | null;
+  avgCurrentB: number | null;
+  avgCurrentC: number | null;
+  imbalancePct: number | null;
+  riskLevel: string;
+  refreshedAt: string;
+}
+
+// Time series data from GET /api/feeders/{id}/chart
 export interface TimeSeriesPoint {
   hour: string;
   avgVoltA: number;
   avgCurrentA: number;
   activeMeters: number;
-}
-
-// Legacy interfaces for backward compatibility
-export interface Substation {
-  id: string;
-  name: string;
-  lat: number;
-  lng: number;
-  type: 'transmission' | 'distribution';
-  nameplateKVA: number;
-}
-
-export interface Transformer {
-  id: string;
-  name: string;
-  lat: number;
-  lng: number;
-  feederId: string;
-  nameplateKVA: number;
-}
-
-export interface Outage {
-  id: string;
-  lat: number;
-  lng: number;
-  feederId: string;
-  startTime: Date;
-  affectedConsumers: number;
 }

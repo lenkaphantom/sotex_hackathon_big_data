@@ -1,9 +1,10 @@
 <div class="chart-wrap">
   <div class="chart-header">
-    <span class="chart-title">Consumption over time</span>
+    <span class="chart-title" [title]="feederName">
+      {{ feederName ? feederName : 'Current (A) — 24h' }}
+    </span>
     <div class="chart-legend">
-      <span class="cl-item blue"></span><span>MW</span>
-      <span class="cl-item amber"></span><span>Losses %</span>
+      <span class="cl-item blue"></span><span>Avg Current (A)</span>
     </div>
   </div>
   <canvas #canvas width="300" height="110"></canvas>

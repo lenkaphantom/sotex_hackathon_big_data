@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,7 +25,12 @@ import { FeederPanelComponent } from './components/feeder-panel/feeder-panel.com
     FeederPanelComponent,
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private networkSvc: NetworkService) {}
+
+  ngOnInit(): void {
+    // Single bootstrap: loads feeders, metrics, alerts, theft-alerts + map points
+    this.networkSvc.loadAllData();
+  }
 }
 

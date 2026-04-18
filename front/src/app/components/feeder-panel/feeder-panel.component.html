@@ -1,10 +1,10 @@
-<div class="feeder-panel" *ngIf="feeder" [class]="feeder.angularStatus">
+<div class="feeder-panel" *ngIf="feeder" [ngClass]="feeder.angularStatus">
   <div class="panel-header">
     <div class="panel-title-row">
       <span class="status-dot" [style.background]="statusColor"></span>
       <h4 class="panel-title">{{ feeder.feederName }}</h4>
     </div>
-    <div class="status-chip" [class]="feeder.angularStatus">
+    <div class="status-chip" [ngClass]="feeder.angularStatus">
       {{ feeder.angularStatus.replace('-', ' ').toUpperCase() }}
     </div>
   </div>
@@ -12,7 +12,7 @@
   <div class="panel-metrics">
     <div class="pm-item">
       <span class="pm-label">Load %</span>
-      <span class="pm-value">{{ feeder.loadPercent | number: '1.1-1' }}%</span>
+      <span class="pm-value">{{ (feeder.loadPercent ?? 0) | number: '1.1-1' }}%</span>
     </div>
     <div class="pm-item">
       <span class="pm-label">Status</span>
@@ -20,7 +20,7 @@
     </div>
     <div class="pm-item">
       <span class="pm-label">Imbalance</span>
-      <span class="pm-value warn">{{ feeder.imbalancePct | number: '1.0-0' }}%</span>
+      <span class="pm-value warn">{{ (feeder.imbalancePct ?? 0) | number: '1.0-0' }}%</span>
     </div>
     <div class="pm-item">
       <span class="pm-label">Active Meters</span>

@@ -18,32 +18,24 @@ export class FeederPanelComponent implements OnInit, OnDestroy {
   constructor(private networkSvc: NetworkService) {}
 
   ngOnInit(): void {
-    // Show the first feeder with issues or highest load
     this.subs.push(
-      this.networkSvc.getFeedersFromApi().subscribe(feeders => {
-        // Show feeder with highest imbalance first
-        this.feeder = feeders.sort((a, b) => b.imbalancePct - a.imbalancePct)[0] ?? null;
-      })
+      this.networkSvc.getSelectedFeeder().subscribe(f => { this.feeder = f; })
     );
   }
 
   get loadPercent(): number {
-    if (!this.feeder) return 0;
-    return Math.round((this.feeder.loadPercent || 0) * 1);
+    return Math.min(Math.round(this.feeder?.loadPercent ?? 0), 100);
   }
 
   get statusColor(): string {
-    if (!this.feeder) return '#6b7280';
-    return { 
-      'normal': '#22c55e', 
-      'high-load': '#f59e0b', 
-      'overloaded': '#ef4444', 
-      'offline': '#6b7280' 
-    }[this.feeder.angularStatus] ?? '#6b7280';
+    return ({
+      'normal':    '#22c55e',
+      'high-load': '#f59e0b',
+      'overloaded':'#ef4444',
+      'offline':   '#6b7280',
+    } as Record<string, string>)[this.feeder?.angularStatus ?? 'normal'] ?? '#6b7280';
   }
 
-  ngOnDestroy(): void { 
-    this.subs.forEach(s => s.unsubscribe()); 
-  }
+  ngOnDestroy(): void { this.subs.forEach(s => s.unsubscribe()); }
 }
 

@@ -1,6 +1,6 @@
 <aside class="sidebar">
 
-  <!-- LEGEND -->
+  <!-- FEEDER STATUS LEGEND -->
   <section class="section">
     <h3 class="section-title">Feeder status</h3>
     <div class="legend">
@@ -11,12 +11,12 @@
       </div>
       <div class="legend-item">
         <span class="dot high-load"></span>
-        <span class="legend-label">High load</span>
+        <span class="legend-label">High load / Theft</span>
         <span class="legend-count">{{ highLoadCount }}</span>
       </div>
       <div class="legend-item">
         <span class="dot overloaded"></span>
-        <span class="legend-label">Overloaded / Anomaly</span>
+        <span class="legend-label">Overloaded</span>
         <span class="legend-count">{{ overloadedCount }}</span>
       </div>
       <div class="legend-item">
@@ -30,34 +30,30 @@
 
     <div class="legend">
       <div class="legend-item">
-        <span class="icon-dot substation"></span>
-        <span class="legend-label">Substation</span>
+        <span class="icon-dot dead-zone"></span>
+        <span class="legend-label">Dead Zone</span>
       </div>
       <div class="legend-item">
-        <span class="icon-dot transformer"></span>
-        <span class="legend-label">Transformer</span>
-      </div>
-      <div class="legend-item">
-        <span class="icon-x"></span>
-        <span class="legend-label">Outage</span>
+        <span class="icon-dot theft-suspect"></span>
+        <span class="legend-label">Theft Suspect</span>
       </div>
     </div>
   </section>
 
-  <!-- METRICS -->
+  <!-- METRICS WIDGETS -->
   <section class="section">
-    <h3 class="section-title">Metrics</h3>
+    <h3 class="section-title">Network metrics</h3>
 
     <div class="metric-card">
       <span class="metric-label">Online Feeders</span>
-      <span class="metric-value primary">{{ metrics.onlineFeeders }} <small>/{{ metrics.totalFeeders }}</small></span>
+      <span class="metric-value primary">{{ metrics.onlineFeeders }} <small>/ {{ metrics.totalFeeders }}</small></span>
     </div>
 
     <div class="metric-card">
       <span class="metric-label">Avg Imbalance</span>
       <span class="metric-value warning">{{ metrics.avgImbalancePct | number: '1.1-1' }} <small>%</small></span>
       <div class="loss-bar-wrap">
-        <div class="loss-bar" [style.width.%]="Math.min(metrics.avgImbalancePct / 100, 100)"></div>
+        <div class="loss-bar" [style.width.%]="Math.min(metrics.avgImbalancePct / 200, 100)"></div>
       </div>
     </div>
 
@@ -79,26 +75,51 @@
     </div>
   </section>
 
-  <!-- FEEDER STATUS -->
-  <section class="section" *ngIf="feeders.length > 0">
-    <h3 class="section-title">Top Feeders</h3>
+  <!-- TOP PROBLEM FEEDERS (click to load chart) -->
+  <section class="section" *ngIf="topFeeders.length > 0">
+    <h3 class="section-title">Top Problem Feeders</h3>
     <div class="alert-list">
       <div
-        *ngFor="let f of feeders | slice:0:5"
+        *ngFor="let f of topFeeders"
         class="alert-item"
-        [class]="'alert-item ' + f.angularStatus"
+        [ngClass]="f.angularStatus"
+        (click)="selectFeeder(f)"
+        style="cursor:pointer"
       >
         <div class="alert-header">
-          <span class="alert-dot" [class]="f.angularStatus"></span>
+          <span class="alert-dot" [ngClass]="f.angularStatus"></span>
           <span class="alert-name">{{ f.feederName }}</span>
         </div>
         <div class="alert-messages">
-          <span class="alert-msg">Load: {{ f.loadPercent | number: '1.1-1' }}%</span>
-          <span class="alert-msg" *ngIf="f.imbalancePct > 100">⚠ Imbalance: {{ f.imbalancePct | number: '1.0-0' }}%</span>
+          <span class="alert-msg">Load: {{ (f.loadPercent ?? 0) | number: '1.1-1' }}%</span>
+          <span class="alert-msg" *ngIf="(f.imbalancePct ?? 0) > 100">
+            ⚠ Imbalance: {{ (f.imbalancePct ?? 0) | number: '1.0-0' }}%
+          </span>
           <span class="alert-msg">{{ f.activeDSCount }}/{{ f.totalDSCount }} meters active</span>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ALERTS FROM /api/feeders/alerts -->
+  <section class="section" *ngIf="alerts.length > 0">
+    <h3 class="section-title">Active Alerts</h3>
+    <div class="alert-list">
+      <div
+        *ngFor="let a of alerts | slice:0:8"
+        class="alert-item"
+        [ngClass]="a.severity"
+      >
+        <div class="alert-header">
+          <span class="alert-dot" [ngClass]="a.severity"></span>
+          <span class="alert-name">{{ a.feederName }}</span>
+        </div>
+        <div class="alert-messages">
+          <span class="alert-msg">{{ a.message }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </aside>
+
