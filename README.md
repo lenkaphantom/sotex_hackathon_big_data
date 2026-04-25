@@ -1,7 +1,7 @@
 # TIL Distribution Network
 
 > **Grid monitoring & loss analytics**  
-> Sotex Solutions Hackathon 2026 · Team TIL
+> Sotex Solutions Hackathon 2026 · 🏆 1st place · Team TIL (Teodora Aleksic & Lenka Nikolic)
 
 A full-stack platform for monitoring an electricity distribution network — built on top of a real-world dataset from the Federal Capital Territory (FCT), Abuja, Nigeria. The system detects energy losses, identifies theft suspects, maps dead zones, and provides dispatchers with a live operational dashboard.
 
